@@ -1,0 +1,56 @@
+
+<!-- <div mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Choose Parameter</mat-label>
+    <mat-select  [(ngModel)]="data.displayedColumns.value" [value]="selectedColumn">
+      <mat-option *ngFor="let column of data.displayedColumns" [value]="column">
+        {{ column }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field style="margin: 5px;" class="example-full-width" >
+    <mat-label >Parameter Value</mat-label>
+    <input matInput [(ngModel)]="paramInput" />
+  </mat-form-field>
+</div> -->
+<div >
+  <!-- table -->
+  <!-- <div mat-dialog-content>
+    <mat-dialog-content>Set all of the parameter values for: </mat-dialog-content>
+    <h1 mat-dialog-title  > {{data.currentPage}}</h1>
+    <table mat-table [dataSource]="[parameterValues]" class="mat-elevation-z8" >
+      <ng-container *ngFor="let column of data.displayedColumns" [matColumnDef]="column">
+        <mat-header-cell *matHeaderCellDef style="background-color: green; color: white; text-align: center;">
+          {{ column }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" style="text-align: center; ">
+          <mat-form-field appearance="fill" style="width: 100px; ">
+            <input matInput [(ngModel)]="element[column]" />
+          </mat-form-field>
+        </mat-cell>
+      </ng-container>
+  
+      <mat-header-row *matHeaderRowDef="data.displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: data.displayedColumns;"></mat-row>
+    </table>
+    </div> -->
+    
+    <mat-dialog-content>
+      <h1 mat-dialog-title>Set all of the parameter values for: {{data.currentPage}}, {{data.selectedPageId}} </h1>
+
+      <div mat-dialog-content>
+        <div *ngFor="let column of data.displayedColumns" style="margin-bottom: 10px;">
+          <div style="font-weight: bold; margin-bottom: 5px; color: green;">{{ column.id }}</div>
+          <mat-form-field appearance="fill" style="width: 100%;">
+            <input matInput [(ngModel)]="parameterValues[column]" [ngClass]="{'non-empty': parameterValues[column]}" />
+          </mat-form-field>
+        </div>
+      </div>
+    
+      <mat-dialog-actions>
+        <button mat-button (click)="onNoClick()">Cancel</button>
+        <button mat-button (click)="save()">Save</button>
+      </mat-dialog-actions>
+    </mat-dialog-content>
+
+

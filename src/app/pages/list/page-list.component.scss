@@ -1,0 +1,41 @@
+
+
+.table-container {
+    margin-top: 150px;  /* Adjust this value to move the table down */
+    margin-left: 60px; /* Adjust this value to move the table to the right */
+}
+.custom-header {
+    background-color: #1DB954; /* Spotify green */
+    color: white; /* Text color */
+}
+.getir-button {
+    margin-top: -75px;  
+    margin-left: 240px; 
+}
+.ekle-button{
+    margin-top: -75px;  
+    margin-left: 350px; 
+}
+mat-form-field{
+    margin-top: 20px;
+    margin-left: 15px;
+}
+mat-card{
+
+    padding: 3px;
+}
+
+
+.mat-card {
+    width: 100%;
+  }
+  
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  table {
+    width: 100%;
+  }
+    

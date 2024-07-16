@@ -88,6 +88,7 @@ export class AddingDialogComponent {
           }
         }
       }
+      
     }));
 
     console.log('Sending data to API:', valuesToSend);

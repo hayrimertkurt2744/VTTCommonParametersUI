@@ -19,6 +19,9 @@ export class APIService {
   GetPageValuesById(PageNum: number) : Observable<any> {
     return this.http.get('http://localhost:5194/CommonParameter/GetPageValuesById/' + PageNum);
   }
+  GetAllParamIDs(){
+    return this.http.get('http://localhost:5194/CommonParameter/GetAllParamIDs/');
+  }
  
   RemmoveParameterValue() : Observable<any> {
     return this.http.delete('http://localhost:5194/CommonParameter/RemoveData/7');
@@ -32,5 +35,6 @@ export class APIService {
     return this.http.post('http://localhost:5194/CommonParameter/AddData',parameterValues)
 
   }
+  
 
 }

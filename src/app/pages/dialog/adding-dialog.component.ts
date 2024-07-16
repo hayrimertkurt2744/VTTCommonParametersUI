@@ -42,8 +42,9 @@ export class AddingDialogComponent {
   ParameterValue: any;
   paramVal: any;
   paramInput: string="";
-  parameterValues: { [key: string]: any } = {};
+  parameterValues:any[] = [];
   snackBar: any;
+  paramIDs:any;
  
   constructor(
     public dialogRef: MatDialogRef<AddingDialogComponent>,
@@ -67,40 +68,53 @@ export class AddingDialogComponent {
 
   // }
   save(): void {
-    // Assuming parameterId and value structure; modify based on actual model
-    const valuesToSend = Object.keys(this.parameterValues).map(key => ({
-      parameterId:6, // Ensure this matches your backend's expected field
-      value: this.parameterValues[key],
-      parameter: { 
-        id: 0, // Modify this as needed
-        pageId: 1, // Modify this as needed
-        columnName: key,
-        orderId: 1, // Modify this as needed
-        type: 'string', // Modify this as needed
-        defaultValue: '', // Modify this as needed
-        page: { 
-          id: 0, // Modify this as needed
-          name: this.data.currentPage, // Modify this as needed
-          projectId: 1, // Modify this as needed
-          project: { 
-            id: 0, // Modify this as needed
-            name: '' // Modify this as needed
-          }
+
+    
+    
+    this.apiService.GetAllParamIDs().subscribe(paramResult => {
+        this.paramIDs = paramResult;
+        
+        // Determine the maximum RowId in existing parameterValues
+        let maxRowId = 0;
+        for (let key in this.parameterValues) {
+            if (this.parameterValues.hasOwnProperty(key) && this.parameterValues[key].hasOwnProperty('RowId')) {
+                maxRowId = Math.max(maxRowId, this.parameterValues[key].RowId);
+            }
         }
-      }
-      
-    }));
+        // Set maxRowId to one more than the highest existing RowId
+        maxRowId += 1;
 
-    console.log('Sending data to API:', valuesToSend);
+        // Initialize the new columns for parameterValues
+        for (let key in this.parameterValues) {
+            if (this.parameterValues.hasOwnProperty(key)) {
+                // Ensure parameterValues[key] is an object
+                if (typeof this.parameterValues[key] === 'string') {
+                    this.parameterValues[key] = { Value: this.parameterValues[key], ParameterID: null, RowId: maxRowId };
+                } else {
+                    this.parameterValues[key].ParameterID = null;
+                    this.parameterValues[key].RowId = maxRowId;
+                }
+            }
+        }
 
-    this.apiService.AddParameterValue(valuesToSend).subscribe({
-      next: (response) => {
-        console.log('Response from API:', response);
-        this.dialogRef.close(this.parameterValues);
-      },
-      error: (error) => {
-        console.error('Error occurred:', error);
-      }
+        // Check if parameterValues has the same string in its index with parameterIDs Name
+        for (let key in this.parameterValues) {
+            if (this.parameterValues.hasOwnProperty(key)) {
+                let matchingParam = this.paramIDs.find((p: { Name: string; }) => p.Name === key);
+                console.log(matchingParam);
+                if (matchingParam) {
+                    this.parameterValues[key].ParameterID = matchingParam.ParamId;
+                }
+            }
+        }
+
+        // Print the updated parameterValues to the console
+        console.log(this.parameterValues);
     });
-  }
+
+    this.apiService.AddParameterValue(this.parameterValues);
+    this.dialogRef.close(this.data);
+    console.log("Added to DB");
+}
+
 }

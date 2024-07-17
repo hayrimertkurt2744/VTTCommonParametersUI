@@ -10,8 +10,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatInputModule} from '@angular/material/input';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
 import { AddingDialogComponent } from '../dialog/adding-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -54,20 +54,20 @@ export class PageListComponent implements OnInit {
   ids: number[] = [];
   pageNum: number = 0;
   selectedPage: number = -1;
-  displayedColumns: string[]=[];
+  displayedColumns: string[] = [];
 
   name: string = ''; // Add property for name
   animal: string = ''; // Add property for animal
   favoriteColor: string = ''; // Add property for favoriteColor
-  messageForChild: string="hello";
+  messageForChild: string = "hello";
   pageResult: any;
-
+  pageParamIdResult: any[] = [];
 
   constructor(
     private apiService: APIService,
     private changeDedector: ChangeDetectorRef,
     private _snackBar: MatSnackBar,
-    public dialog:MatDialog
+    public dialog: MatDialog
   ) {
 
   }
@@ -80,7 +80,7 @@ export class PageListComponent implements OnInit {
       console.table(result);
       //debugger;
     });
-    
+
 
 
 
@@ -89,18 +89,17 @@ export class PageListComponent implements OnInit {
     });
 
   }
- 
+
 
   GetPageValues(): any {
-    if (this.selectedPage == -1)
-    {return;}
+    if (this.selectedPage == -1) { return; }
     console.log(this.selectedPage);
     this.apiService.GetPageValuesById(this.selectedPage).subscribe(pageResult => {
 
-      
+
       this.PageDatas = pageResult;
       console.log(this.PageDatas);
-      
+
       this.displayedColumns = Object.keys(this.PageDatas[0]);
       console.log(this.displayedColumns);
 
@@ -116,13 +115,17 @@ export class PageListComponent implements OnInit {
 
   openDialog(): void {
 
-    let dialogRef=this.dialog.open(AddingDialogComponent,{
-      data: {displayedColumns: this.displayedColumns, currentPage:this.PageDataSource[this.selectedPage-1],selectedPageId:this.selectedPage,
-        pagedata: this.PageDatas,
-      }
+    this.apiService.GetAllParamIDs(this.selectedPage).subscribe(result => {
+      let dialogRef = this.dialog.open(AddingDialogComponent, {
+        data: {
+           currentParameterIds: result, currentPage: this.PageDataSource[this.selectedPage - 1], selectedPageId: this.selectedPage,
+          pagedata: this.PageDatas,
+        }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('Dialog result:' + result)
+      })
+
     });
-    dialogRef.afterClosed().subscribe(result=>{
-      console.log('Dialog result:'+result)
-    })
   }
 }

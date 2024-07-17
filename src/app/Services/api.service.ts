@@ -13,14 +13,14 @@ export class APIService {
 
   GetAllPages() : Observable<any> {
 
-    return this.http.get('http://localhost:5194/CommonParameter/GetAllPages');
+    return this.http.get(this.baseUrl+'CommonParameter/GetAllPages');
   }
 
   GetPageValuesById(PageNum: number) : Observable<any> {
     return this.http.get('http://localhost:5194/CommonParameter/GetPageValuesById/' + PageNum);
   }
-  GetAllParamIDs(){
-    return this.http.get('http://localhost:5194/CommonParameter/GetAllParamIDs/');
+  GetAllParamIDs(pageId:number){
+    return this.http.get(`http://localhost:5194/CommonParameter/GetAllParamIDs/${pageId}`);
   }
  
   RemmoveParameterValue() : Observable<any> {
@@ -32,7 +32,7 @@ export class APIService {
   // }
   AddParameterValue(parameterValues: any[]): Observable<any>{
     
-    return this.http.post('http://localhost:5194/CommonParameter/AddData',parameterValues)
+    return this.http.post('http://localhost:5194/CommonParameter/AddData/'+parameterValues,parameterValues)
 
   }
   

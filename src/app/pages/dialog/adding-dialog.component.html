@@ -40,14 +40,14 @@
     
       <div class="dialog-content">
         <!-- Display other columns except Id -->
-        <div *ngFor="let column of data.displayedColumns">
+        <div *ngFor="let column of data.currentParameterIds">
           <ng-container *ngIf="column !== 'Id'">
             <div style="margin-bottom: 10px;">
               <div style="font-weight: bold; margin-bottom: 5px; color: green; text-transform: uppercase;">
-                {{ column }}
+                {{ column.Name }}
               </div>
-              <mat-form-field appearance="fill" style="width: 100%;">
-                <input matInput [(ngModel)]="parameterValues[column]" [ngClass]="{'non-empty': parameterValues[column]}" />
+              <mat-form-field appearance="fill" style="width: 100%;" >
+                <input matInput [(ngModel)]="column.Value" />
               </mat-form-field>
             </div>
           </ng-container>

@@ -1,47 +1,62 @@
-
-
 <mat-card appearance="outlined">
+
   <body>
     <div class="row ">
       <div class="col-4 ">
-          <mat-form-field appearance="fill">
-            <mat-label>Choose Form Page</mat-label>
-            <mat-select (selectionChange)="selectedPage=($event.value)">
-              <mat-option *ngFor="let page of PageDataSource" [value]="page.Id" >
-                {{ page.Name }}
-                
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Choose Form Page</mat-label>
+          <mat-select (selectionChange)="selectedPage=($event.value)">
+            <mat-option *ngFor="let page of PageDataSource" [value]="page.Id">
+              {{ page.Name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-      <div class="getir-button  align-items-start ">
-            <button mat-fab extended style="background-color: #56474f; color: white; width: 100px;"  (click)="GetPageValues()" >GET</button>
+      <div class="getir-button align-items-start">
+        <button mat-fab extended style="background-color: #56474f; color: white; width: 100px;"
+          (click)="GetPageValues()">GET</button>
       </div>
-      <div class="ekle-button align-items-start ">
-            <button mat-fab extended style="background-color: #56474f; color: white; width: 100px;"  (click)="openDialog()" >ADD</button>
-            
+      <div class="ekle-button align-items-start">
+        <button mat-fab extended style="background-color: #56474f; color: white; width: 100px;"
+          (click)="openDialog()">ADD</button>
       </div>
     </div>
-    
-    <table mat-table   [dataSource]="PageDatas" class="mat-elevation-z8">
-  
+
+    <table mat-table [dataSource]="PageDatas" class="mat-elevation-z8">
+
       <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
-        <mat-header-cell style="background-color: #1DB954; color: white;"  *matHeaderCellDef  > {{ column }} </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{ element[column] }} </mat-cell>
+        <div *ngIf="column !== 'Actions'">
+          <mat-header-cell style="background-color: #1DB954; color: white;" *matHeaderCellDef> {{ column }}
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element[column] }}
+          </mat-cell>
+        </div>
+        <div *ngIf="column === 'Actions'">
+          <mat-header-cell style="background-color: #1DB954; color: white;" *matHeaderCellDef> {{ column }}
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element[column] }}
+            <button mat-icon-button (click)="deleteElement(element.Name ,1)">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-icon-button>
+              <mat-icon>edit</mat-icon>
+            </button>
+          </mat-cell>
+        </div>
       </ng-container>
+
+
+      <!-- Action Column -->
+      <!-- <ng-container matColumnDef="Actions">
+        <mat-header-cell style="background-color: #1DB954; color: white;" *matHeaderCellDef> Actions </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+        </mat-cell>
+      </ng-container> -->
+
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </table>
   </body>
-
 </mat-card>
-
-
-
-
-
-
-
-
-  
-  

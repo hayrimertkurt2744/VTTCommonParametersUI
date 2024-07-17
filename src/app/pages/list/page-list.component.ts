@@ -84,9 +84,9 @@ export class PageListComponent implements OnInit {
 
 
 
-    this.apiService.RemmoveParameterValue().subscribe(removeResult => {
-      console.log('Parameter removed:', removeResult);
-    });
+    // this.apiService.RemmoveParameterValue().subscribe(removeResult => {
+    //   console.log('Parameter removed:', removeResult);
+    // });
 
   }
 
@@ -98,9 +98,10 @@ export class PageListComponent implements OnInit {
 
 
       this.PageDatas = pageResult;
-      console.log(this.PageDatas);
+      console.table(pageResult);
 
       this.displayedColumns = Object.keys(this.PageDatas[0]);
+      this.displayedColumns.push("Actions");
       console.log(this.displayedColumns);
 
 
@@ -128,4 +129,14 @@ export class PageListComponent implements OnInit {
 
     });
   }
+  deleteElement(pageId:number, rowId:any) {
+    debugger;
+    console.table(this.PageDatas);
+    console.log(pageId);
+  }
+  editElement(element: any) {
+    // Your edit logic here
+  }
+  
+  
 }

@@ -12,7 +12,6 @@ export class APIService {
   baseUrl = "http://localhost:5194/";
 
   GetAllPages() : Observable<any> {
-
     return this.http.get(this.baseUrl+'CommonParameter/GetAllPages');
   }
 

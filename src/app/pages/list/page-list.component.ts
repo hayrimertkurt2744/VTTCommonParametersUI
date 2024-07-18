@@ -138,7 +138,7 @@ export class PageListComponent implements OnInit {
 
 }
   
-  editElement(element: any) {
+  editElement(rowId:any) {
     // Your edit logic here
   }
   

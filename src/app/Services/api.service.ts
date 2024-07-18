@@ -29,8 +29,11 @@ export class APIService {
 
   AddParameterValue(parameterValues: any[]): Observable<any>{
     
-    return this.http.post(this.baseUrl+'CommonParameter/AddData/'+parameterValues,parameterValues)
-
+    return this.http.post(this.baseUrl+`CommonParameter/AddData/${parameterValues}`,parameterValues)
+  }
+  UpdateParameterValue(rowId:number,pageId:number,parameterValues: any[]): Observable<any>{
+    
+    return this.http.put(`${this.baseUrl}CommonParameter/RemoveData/${rowId}/${pageId}`,parameterValues)
   }
   
 

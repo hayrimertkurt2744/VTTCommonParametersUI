@@ -61,53 +61,45 @@ export class PageListComponent implements OnInit {
   favoriteColor: string = ''; // Add property for favoriteColor
   messageForChild: string = "hello";
   pageResult: any;
-  pageParamIdResult: any[] = [];
+  pageParamIdResult:any;
+
+
 
   constructor(
     private apiService: APIService,
     private changeDedector: ChangeDetectorRef,
     private _snackBar: MatSnackBar,
     public dialog: MatDialog
-  ) {
-
-  }
+  ) {}
 
   ngOnInit(): void {
     this.apiService.GetAllPages().subscribe(result => {
-      //debugger;
-
       this.PageDataSource = result;
       console.table(result);
-      //debugger;
     });
-
-
-
-
-    // this.apiService.RemmoveParameterValue().subscribe(removeResult => {
-    //   console.log('Parameter removed:', removeResult);
-    // });
-
   }
-
 
   GetPageValues(): any {
     if (this.selectedPage == -1) { return; }
     console.log(this.selectedPage);
     this.apiService.GetPageValuesById(this.selectedPage).subscribe(pageResult => {
 
-
       this.PageDatas = pageResult;
-      console.table(pageResult);
+
+      pageResult.forEach((element: { Id: any; }) => 
+      {
+        console.log('Id:', element.Id);
+      });
 
       this.displayedColumns = Object.keys(this.PageDatas[0]);
       this.displayedColumns.push("Actions");
-      console.log(this.displayedColumns);
-
-
       this.changeDedector.detectChanges();
-    });
 
+    });   
+    // this.apiService.GetAllParamIDs(1).subscribe(resultParamIds => {
+    //   this.pageParamIdResult=resultParamIds;
+    //   console.table(this.pageParamIdResult)
+    // });
   }
 
   openSnackBar(message: string, action: string) {
@@ -119,21 +111,33 @@ export class PageListComponent implements OnInit {
     this.apiService.GetAllParamIDs(this.selectedPage).subscribe(result => {
       let dialogRef = this.dialog.open(AddingDialogComponent, {
         data: {
-           currentParameterIds: result, currentPage: this.PageDataSource[this.selectedPage - 1], selectedPageId: this.selectedPage,
-          pagedata: this.PageDatas,
-        }
+            currentParameterIds: result, currentPage: this.PageDataSource[this.selectedPage - 1],
+            selectedPageId: this.selectedPage,
+            pagedata: this.PageDatas,
+          }
       });
+
       dialogRef.afterClosed().subscribe(result => {
-        console.log('Dialog result:' + result)
+        this.GetPageValues();
+        this.changeDedector.detectChanges();
       })
 
     });
   }
-  deleteElement(pageId:number, rowId:any) {
-    debugger;
-    console.table(this.PageDatas);
-    console.log(pageId);
-  }
+  deleteElement(rowId:any) {
+
+   console.log(rowId);
+   console.log(this.PageDataSource[this.selectedPage - 1].Id);
+   
+   this.apiService.RemmoveParameterValue(rowId,this.PageDataSource[this.selectedPage - 1].Id).subscribe(result => {
+
+    console.log("Deletion complete");
+    this.GetPageValues();
+    this.changeDedector.detectChanges();
+  });
+
+}
+  
   editElement(element: any) {
     // Your edit logic here
   }

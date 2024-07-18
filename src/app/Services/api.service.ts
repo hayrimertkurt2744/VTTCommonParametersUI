@@ -17,22 +17,19 @@ export class APIService {
   }
 
   GetPageValuesById(PageNum: number) : Observable<any> {
-    return this.http.get('http://localhost:5194/CommonParameter/GetPageValuesById/' + PageNum);
+    return this.http.get( `${this.baseUrl}CommonParameter/GetPageValuesById/${PageNum}` );
   }
   GetAllParamIDs(pageId:number){
-    return this.http.get(`http://localhost:5194/CommonParameter/GetAllParamIDs/${pageId}`);
+    return this.http.get(`${this.baseUrl}CommonParameter/GetAllParamIDs/${pageId}`);
   }
  
-  RemmoveParameterValue() : Observable<any> {
-    return this.http.delete('http://localhost:5194/CommonParameter/RemoveData/7');
+  RemmoveParameterValue(rowId:number,pageId:number) : Observable<any> {
+    return this.http.delete(`${this.baseUrl}CommonParameter/RemoveData/${rowId}/${pageId}`);
   }
-  // //RemoveData in .net repository
-  // AddParameterValue() : Observable<any> {
-  //   return this.http.post('http://localhost:5194/CommonParameter/AddData');
-  // }
+
   AddParameterValue(parameterValues: any[]): Observable<any>{
     
-    return this.http.post('http://localhost:5194/CommonParameter/AddData/'+parameterValues,parameterValues)
+    return this.http.post(this.baseUrl+'CommonParameter/AddData/'+parameterValues,parameterValues)
 
   }
   

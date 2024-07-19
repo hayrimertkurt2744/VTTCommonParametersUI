@@ -34,15 +34,9 @@
       <mat-row *matRowDef="let row; columns: data.displayedColumns;"></mat-row>
     </table>
     </div> -->
-    
+    <div *ngIf="data.updateRow!=null; else elseBlockUpdate"> 
     <mat-dialog-content>
-      <div *ngIf="data.updateRow!=null; else elseBlock1">
-        <h1 mat-dialog-title>Edit desired values of {{data.updateRowId}}. Row of {{data.currentPage.Name}}</h1>
-      </div>
-        <ng-template #elseBlock1>
-          <h1 mat-dialog-title>Set all of the parameter values for: {{data.currentPage.Name}}</h1>
-        </ng-template>
-    
+        <h1 mat-dialog-title>Edit desired values of {{data.updateRowId}}. Row of {{data.currentPage.Name}}, {{data.updateRow.Name}}</h1>
       <div class="dialog-content">
         <!-- Display other columns except Id -->
         <div *ngFor="let column of data.currentParameterIds">
@@ -52,35 +46,43 @@
                 {{ column.Name }}
               </div>
               <mat-form-field appearance="fill" style="width: 100%;" >
-
-                <div *ngIf="data.updateRow!=null; else elseBlock2">
                   <mat-label>hayri</mat-label>
                   <input matInput [(ngModel)]="column.Value" />
-                </div>
-                
-                <ng-template #elseBlock2>
-                  <mat-label>Mert</mat-label>
-                  <input matInput [(ngModel)]="column.Value" />
-                </ng-template>
-
-
               </mat-form-field>
             </div>
           </ng-container>
         </div>
       </div>
-    
       <mat-dialog-actions>
         <button mat-button (click)="onNoClick()">Cancel</button>
-
-        <div *ngIf="data.updateRow!=null; else elseBlock3">
           <button mat-button (click)="save()" >Update</button>
-        </div>
-        
-        <ng-template #elseBlock3>
-          <button mat-button (click)="save()" >Save</button>
-        </ng-template>
-
       </mat-dialog-actions>
-      
     </mat-dialog-content>
+    </div>
+
+    <ng-template #elseBlockUpdate>
+      <mat-dialog-content>
+        <h1 mat-dialog-title>Set all of the parameter values for: {{data.currentPage.Name}}</h1>
+        <div class="dialog-content">
+          <!-- Display other columns except Id -->
+          <div *ngFor="let column of data.currentParameterIds">
+            <ng-container *ngIf="column !== 'Id'">
+              <div style="margin-bottom: 10px;">
+                <div style="font-weight: bold; margin-bottom: 5px; color: green; text-transform: uppercase;">
+                  {{ column.Name }}
+                </div>
+                <mat-form-field appearance="fill" style="width: 100%;" >
+                    <mat-label>Mert</mat-label>
+                    <input matInput [(ngModel)]="column.Value" />
+                </mat-form-field>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <mat-dialog-actions>
+          <button mat-button (click)="onNoClick()">Cancel</button>
+          <button mat-button (click)="save()" >Save</button>
+        </mat-dialog-actions>
+    </mat-dialog-content>
+
+    </ng-template>

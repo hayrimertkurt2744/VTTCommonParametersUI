@@ -57,21 +57,29 @@ export class AddingDialogComponent {
   onNoClick(): void {
     //console.table(this.parameterValues);
     this.dialogRef.close();
-    console.table(this.data.currentParameterIds)
-    console.log("heher")
 
   }
 
   save(): void {
     //this.data.currentParameterIds bunu post request at bitti
     //bu veriyi çekerken parameterID diye çekmişsin Id diye çek tekrar uğraşma
+
     this.apiService.AddParameterValue(this.data.currentParameterIds).subscribe(paramResult => {
 
-        debugger;
 
     });
-    this.dialogRef.close(this.data);
+    this.dialogRef.close();
     console.log("Added to DB");
+  }
 
-    
-}}
+  update():void{
+
+    console.log(this.data.rowId);
+    console.log(this.data.currentPage);
+    this.apiService.UpdateParameterValue(this.data.updateRowId ,this.data.selectedPageId, this.data.currentParameterIds).subscribe(updateResult=>{
+     
+    });
+    this.dialogRef.close();
+    console.log("DB Update");
+  } 
+}

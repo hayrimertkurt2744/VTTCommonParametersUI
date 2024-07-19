@@ -100,6 +100,8 @@ export class PageListComponent implements OnInit {
       this.apiService.GetAllParamIDs(this.selectedPage).subscribe(result => {
         this.currentPageParamIds=result;
         console.table(this.currentPageParamIds);
+        
+        this.changeDedector.detectChanges();
       });
       this.changeDedector.detectChanges();
 
@@ -140,27 +142,30 @@ export class PageListComponent implements OnInit {
       
       dialogRef.afterClosed().subscribe(result => {
         this.GetPageValues();
-        this.changeDedector.detectChanges();
+
       })
 
   }
 
-  editElement(rowId:any) {
-    
-    this.editRow=this.PageDatas.find((data: { Id: any; }) => data.Id === rowId);
+  editElement(rowId: any) {
+    this.editRow = this.PageDatas.find((data: { Id: any; }) => data.Id === rowId);
     console.log(this.editRow);
-    this.updateRowId=rowId;
+    this.updateRowId = rowId;
+  
     let dialogRef = this.dialog.open(AddingDialogComponent, {
       data: {
-            currentParameterIds: this.currentPageParamIds, currentPage: this.PageDataSource[this.selectedPage - 1],
-            selectedPageId: this.selectedPage,
-            pagedata: this.PageDatas,
-            updateRow: this.editRow,
-            updateRowId:this.updateRowId,  
+        currentParameterIds: this.currentPageParamIds,
+        currentPage: this.PageDataSource[this.selectedPage - 1],
+        selectedPageId: this.selectedPage,
+        pagedata: this.PageDatas,
+        updateRow: this.editRow,
+        updateRowId: this.updateRowId,
       }
-
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      this.GetPageValues();
     });
   }
-  
   
 }

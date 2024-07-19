@@ -64,7 +64,7 @@ export class PageListComponent implements OnInit {
   pageParamIdResult:any;
   editRow:any;
   currentPageParamIds:any;
-  updateRowId:number | undefined;
+  updateRowId:any;
 
 
 
@@ -141,8 +141,9 @@ export class PageListComponent implements OnInit {
       });
       
       dialogRef.afterClosed().subscribe(result => {
-        this.GetPageValues();
-
+          this.apiService.AddParameterValue(result).subscribe(paramResult => {
+          this.GetPageValues();
+        });
       })
 
   }
@@ -164,7 +165,10 @@ export class PageListComponent implements OnInit {
     });
   
     dialogRef.afterClosed().subscribe(result => {
-      this.GetPageValues();
+      this.apiService.UpdateParameterValue(this.updateRowId,this.selectedPage, result).subscribe(updateResult=>{
+        this.GetPageValues();
+      });
+      
     });
   }
   

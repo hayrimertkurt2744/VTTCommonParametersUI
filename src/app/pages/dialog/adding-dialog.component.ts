@@ -1,6 +1,6 @@
 import { Component, Inject,  Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { APIService } from '../../Services/api.service';
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -50,7 +50,6 @@ export class AddingDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<AddingDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private apiService: APIService,
     private _snackBar: MatSnackBar,
   ) {}
 
@@ -63,23 +62,23 @@ export class AddingDialogComponent {
   save(): void {
     //this.data.currentParameterIds bunu post request at bitti
     //bu veriyi çekerken parameterID diye çekmişsin Id diye çek tekrar uğraşma
-
-    this.apiService.AddParameterValue(this.data.currentParameterIds).subscribe(paramResult => {
-
-
-    });
-    this.dialogRef.close();
+    this.dialogRef.close(this.data.currentParameterIds);
     console.log("Added to DB");
+  }
+  
+  transformData(updateRow: any, currentParameterIds: any[]): any[] {
+    return currentParameterIds.map(param => {
+      return {
+        ParameterId: param.ParameterId,
+        Name: param.Name,
+        Value: updateRow[param.Name]
+      };
+    });
   }
 
   update():void{
-
-    console.log(this.data.rowId);
-    console.log(this.data.currentPage);
-    this.apiService.UpdateParameterValue(this.data.updateRowId ,this.data.selectedPageId, this.data.currentParameterIds).subscribe(updateResult=>{
-     
-    });
-    this.dialogRef.close();
+    this.dialogRef.close(this.transformData(this.data.updateRow,this.data.currentParameterIds));
     console.log("DB Update");
   } 
+
 }

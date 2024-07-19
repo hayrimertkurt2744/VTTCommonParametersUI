@@ -21,7 +21,12 @@
           (click)="openDialog()">ADD</button>
       </div>
     </div>
-
+    <mat-paginator [length]="100"
+          [pageSize]="10"
+          [pageSizeOptions]="[5, 10, 25, 100]"
+          aria-label="Select page"
+          showFirstLastButtons extended style="background-color: #232323; color: white; height: 51px;">
+          </mat-paginator>
     <table mat-table [dataSource]="PageDatas" class="mat-elevation-z8">
 
       <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
@@ -59,4 +64,5 @@
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </table>
   </body>
+
 </mat-card>

@@ -5,6 +5,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule} from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+
 
 
 
@@ -18,7 +20,8 @@ import { MatDialogModule} from '@angular/material/dialog';
     MatButtonModule,
     MatGridListModule,
     FormsModule,
-    MatDialogModule,],
+    MatDialogModule,
+    ConfirmationDialogComponent,],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   

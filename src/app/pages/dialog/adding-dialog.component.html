@@ -34,8 +34,9 @@
       <mat-row *matRowDef="let row; columns: data.displayedColumns;"></mat-row>
     </table>
     </div> -->
+    
     <div *ngIf="data.updateRow!=null; else elseBlockUpdate"> 
-    <mat-dialog-content>
+    <mat-dialog-content >
         <h1 mat-dialog-title>Edit desired values of {{data.updateRowId}}. Row of {{data.currentPage.Name}}, {{data.updateRow.Name}}</h1>
       <div class="dialog-content">
         <!-- Display other columns except Id -->

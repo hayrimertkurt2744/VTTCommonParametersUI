@@ -14,6 +14,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { AddingDialogComponent } from '../dialog/adding-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 
 
 
@@ -117,17 +118,22 @@ export class PageListComponent implements OnInit {
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action);
   }
-  deleteElement(rowId:any) {
+  deleteElement(rowId: any) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '400px',
+      data: { id: rowId }
+    });
 
-   
-    this.apiService.RemmoveParameterValue(rowId,this.PageDataSource[this.selectedPage - 1].Id).subscribe(result => {
- 
-     console.log("Deletion complete");
-     this.GetPageValues();
-     this.changeDedector.detectChanges();
-   });
- 
- }
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.apiService.RemmoveParameterValue(rowId, this.PageDataSource[this.selectedPage - 1].Id).subscribe(() => {
+          console.log("Deletion complete");
+          this.GetPageValues();
+          this.changeDedector.detectChanges();
+        });
+      }
+    });
+  }
    
   openDialog(): void {
       let dialogRef = this.dialog.open(AddingDialogComponent, {

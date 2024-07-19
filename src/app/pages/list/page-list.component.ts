@@ -156,8 +156,7 @@ export class PageListComponent implements OnInit {
             selectedPageId: this.selectedPage,
             pagedata: this.PageDatas,
             updateRow: this.editRow,
-            updateRowId:this.updateRowId,
-          
+            updateRowId:this.updateRowId,  
       }
 
     });

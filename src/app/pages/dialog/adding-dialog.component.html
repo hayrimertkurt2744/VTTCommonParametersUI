@@ -46,7 +46,8 @@
                 {{ column.Name }}
               </div>
               <mat-form-field appearance="fill" style="width: 100%;" >
-                  <mat-label>hayri</mat-label>
+                  <mat-label>{{ data.updateRow[column.Name]}}</mat-label>
+                  <!-- Maybe add two way binding here -->
                   <input matInput [(ngModel)]="column.Value" />
               </mat-form-field>
             </div>

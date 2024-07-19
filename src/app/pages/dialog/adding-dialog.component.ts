@@ -55,9 +55,10 @@ export class AddingDialogComponent {
   ) {}
 
   onNoClick(): void {
-    console.table(this.parameterValues);
+    //console.table(this.parameterValues);
     this.dialogRef.close();
-    console.table(this.data.paramIDs)
+    console.table(this.data.currentParameterIds)
+    console.log("heher")
 
   }
 

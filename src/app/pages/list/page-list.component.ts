@@ -18,6 +18,7 @@ import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmat
 import { MatPaginator } from '@angular/material/paginator';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatBadgeModule } from '@angular/material/badge';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-page-list',
@@ -37,7 +38,8 @@ import { MatBadgeModule } from '@angular/material/badge';
     MatInputModule,
     AddingDialogComponent,
     MatPaginatorModule,
-    MatBadgeModule 
+    MatBadgeModule,
+    MatTooltipModule
   ],
   templateUrl: './page-list.component.html',
   styleUrls: ['./page-list.component.scss']
@@ -65,6 +67,10 @@ export class PageListComponent implements OnInit, AfterViewInit {
   currentPageParamIds: any;
   updateRowId: any;
   rowCount:number=0;
+
+  tooltipOpenTime:number=500;
+  tooltipCloseTime:number=500;
+
 
   constructor(
     private apiService: APIService,

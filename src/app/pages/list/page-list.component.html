@@ -13,11 +13,14 @@
         </mat-form-field>
       </div>
       <div class="getir-button align-items-start">
-        <button mat-fab extended style="background-color: #56474f; color: white; width: 100px;"
+        <button matTooltip="Get the current page records." 
+            [matTooltipShowDelay]="this.tooltipOpenTime"
+            [matTooltipHideDelay]="this.tooltipCloseTime"
+            mat-fab extended style="background-color: #56474f; color: white; width: 100px;"
           (click)="GetPageValues()">GET</button>
       </div>
       <div class="ekle-button align-items-start">
-        <button mat-fab extended style="background-color: #56474f; color: white; width: 100px;"
+        <button matTooltip="Add a new row to this page."mat-fab extended style="background-color: #56474f; color: white; width: 100px;"
           (click)="openDialog()">ADD</button>
       </div>
     </div>
@@ -42,10 +45,16 @@
           </mat-header-cell>
           <mat-cell *matCellDef="let element">
             {{ element[column] }}
-            <button mat-icon-button (click)="deleteElement(element.Id)">
+            <button matTooltip="Delete this row." 
+            [matTooltipShowDelay]="this.tooltipOpenTime"
+            [matTooltipHideDelay]="this.tooltipCloseTime"
+            mat-icon-button (click)="deleteElement(element.Id)">
               <mat-icon>delete</mat-icon>
             </button>
-            <button mat-icon-button (click)="editElement(element.Id)">
+            <button matTooltip="Update desired value/s." 
+            [matTooltipShowDelay]="this.tooltipOpenTime"
+            [matTooltipHideDelay]="this.tooltipCloseTime"
+            mat-icon-button (click)="editElement(element.Id)">
               <mat-icon>edit</mat-icon>
             </button>
           </mat-cell>

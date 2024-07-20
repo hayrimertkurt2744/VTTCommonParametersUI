@@ -1,6 +1,5 @@
 import { Component, Inject,  Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -32,8 +31,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
     MatSnackBarModule,
     MatDialogModule,
     MatInputModule,
-    
-    
     ],
   templateUrl: './adding-dialog.component.html',
   styleUrl: './adding-dialog.component.scss'

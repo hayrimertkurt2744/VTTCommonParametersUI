@@ -3,10 +3,10 @@
   <body>
     <div class="row ">
       <div class="col-4 ">
-        <mat-form-field appearance="fill">
+        <mat-form-field matBadge="{{this.rowCount}}"  appearance="fill">
           <mat-label>Choose Form Page</mat-label>
           <mat-select (selectionChange)="selectedPage=($event.value)">
-            <mat-option *ngFor="let page of PageDataSource" [value]="page.Id">
+            <mat-option  *ngFor="let page of PageDataSource" [value]="page.Id">
               {{ page.Name }}
             </mat-option>
           </mat-select>

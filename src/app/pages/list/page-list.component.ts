@@ -17,6 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @Component({
   selector: 'app-page-list',
@@ -35,7 +36,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatDialogModule,
     MatInputModule,
     AddingDialogComponent,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatBadgeModule 
   ],
   templateUrl: './page-list.component.html',
   styleUrls: ['./page-list.component.scss']
@@ -47,7 +49,6 @@ export class PageListComponent implements OnInit, AfterViewInit {
   PageDatas = new MatTableDataSource<any>();
   PageDatasId: any;
   removeResult: any;
-  selected = 'option2';
   names: string[] = [];
   ids: number[] = [];
   pageNum: number = 0;
@@ -63,6 +64,7 @@ export class PageListComponent implements OnInit, AfterViewInit {
   editRow: any;
   currentPageParamIds: any;
   updateRowId: any;
+  rowCount:number=0;
 
   constructor(
     private apiService: APIService,
@@ -86,8 +88,12 @@ export class PageListComponent implements OnInit, AfterViewInit {
 
     this.apiService.GetPageValuesById(this.selectedPage).subscribe(pageResult => {
       this.PageDatas.data = pageResult;
+      console.table(pageResult);
       this.displayedColumns = Object.keys(pageResult[0]);
       this.displayedColumns.push("Actions");
+
+      this.rowCount = pageResult.length;
+      console.log('Row Count:', this.rowCount);
 
       this.apiService.GetAllParamIDs(this.selectedPage).subscribe(result => {
         this.currentPageParamIds = result;

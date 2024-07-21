@@ -15,8 +15,8 @@ export class APIService {
     return this.http.get(this.baseUrl+'CommonParameter/GetAllPages');
   }
 
-  GetPageValuesById(PageNum: number) : Observable<any> {
-    return this.http.get( `${this.baseUrl}CommonParameter/GetPageValuesById/${PageNum}` );
+  GetPageValuesById(PageNum: number, skip:number, take:number) : Observable<any> {
+    return this.http.get( `${this.baseUrl}CommonParameter/GetPageValuesById/${PageNum}/${skip}/${take}` );
   }
   GetAllParamIDs(pageId:number){
     return this.http.get(`${this.baseUrl}CommonParameter/GetAllParamIDs/${pageId}`);
@@ -34,6 +34,8 @@ export class APIService {
     
     return this.http.put(`${this.baseUrl}CommonParameter/UpdateData/${rowId}/${pageId}`,parameterValues)
   }
-  
+  GetTotalCount(pageId:number): Observable<number>{
+    return this.http.get<number>(`${this.baseUrl}CommonParameter/GetTotalCount/${pageId}`);
+  }
 
 }

@@ -15,7 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { AddingDialogComponent } from '../dialog/adding-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -82,26 +82,23 @@ export class PageListComponent implements OnInit, AfterViewInit {
     this.apiService.GetAllPages().subscribe(result => {
       this.PageDataSource = result;
     });
+
   }
 
   ngAfterViewInit() {
-    this.PageDatas.paginator = this.paginator;
     console.log("ngAfterViewInit called");
   }
 
-  onPageSelectionChange(pageId: number) {
-    console.log("On page selection called");
-    this.selectedPage = pageId;
-    this.PageDatas.paginator = this.paginator;
-    this.GetPageValues(0, this.paginator.pageSize);
-  }
 
-  onPaginatorChange(pageIndex: number, pageSize: number) {
+  onPaginatorChange(pageInfo:PageEvent) {
+    this.PageDatas.paginator = this.paginator;
     console.log("Paginator has changed");
-    this.GetPageValues(pageIndex, pageSize);
+    pageInfo.length=this.rowCount;
+    this.GetPageValues(pageInfo.pageIndex, pageInfo.pageSize);
   }
 
   GetPageValues(pageIndex: number, pageSize: number): any {
+    this.PageDatas.paginator = this.paginator;
     console.log("Get page values called");
     if (this.selectedPage == -1) { return; }
 
@@ -110,7 +107,7 @@ export class PageListComponent implements OnInit, AfterViewInit {
 
     this.apiService.GetTotalCount(this.selectedPage).subscribe((total: number) => {
       this.rowCount = total;
-      this.paginator.length = total;
+      
 
       this.apiService.GetPageValuesById(this.selectedPage, skip, take).subscribe((data: any[]) => {
         this.PageDatas.data = data;
@@ -175,6 +172,7 @@ export class PageListComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(result => {
       this.apiService.AddParameterValue(result).subscribe(() => {
         this.GetPageValues(this.paginator.pageIndex, this.paginator.pageSize);
+        this.changeDedector.detectChanges();
       });
     });
   }
@@ -198,6 +196,7 @@ export class PageListComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(result => {
       this.apiService.UpdateParameterValue(this.updateRowId, this.selectedPage, result).subscribe(() => {
         this.GetPageValues(this.paginator.pageIndex, this.paginator.pageSize);
+        this.changeDedector.detectChanges();
       });
     });
   }

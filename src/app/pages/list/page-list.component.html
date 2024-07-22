@@ -2,7 +2,7 @@
   <body>
     <div class="row ">
       <div class="col-4 ">
-        <mat-form-field appearance="fill">
+        <mat-form-field matBadge="{{this.rowCount}}" matBadgeSize="large" appearance="fill">
           <mat-label>Choose Form Page</mat-label>
           <mat-select (selectionChange)="selectedPage=($event.value)">
             <mat-option *ngFor="let page of PageDataSource" [value]="page.Id">
@@ -24,14 +24,13 @@
       </div>
     </div>
 
-    
-    <mat-paginator #paginator
-    [length]="rowCount"
-    [pageSize]="10"
+    <!-- [pageSize]="10" -->
+
+    <mat-paginator 
     [pageSizeOptions]="[5, 10, 25, 100]"
     aria-label="Select page"
     showFirstLastButtons
-    (page)="onPaginatorChange($event.pageIndex, $event.pageSize)"
+    (page)="onPaginatorChange($event)"
     
     style="background-color: #232323; color: white; height: 51px;">
   </mat-paginator>

@@ -24,16 +24,20 @@
       </div>
     </div>
 
-    <!-- [pageSize]="10" -->
+    <!--  -->
+    <div *ngIf="PageDatas">
+      <mat-paginator
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      [length]="rowCount"
+      aria-label="Select page"
+      showFirstLastButtons
+      (page)="onPaginatorChange($event.pageIndex,$event.pageSize)"
+      
+      style="background-color: #232323; color: white; height: 51px;">
+    </mat-paginator>
 
-    <mat-paginator 
-    [pageSizeOptions]="[5, 10, 25, 100]"
-    aria-label="Select page"
-    showFirstLastButtons
-    (page)="onPaginatorChange($event)"
-    
-    style="background-color: #232323; color: white; height: 51px;">
-  </mat-paginator>
+    </div>
+     
 
 
     <table mat-table [dataSource]="PageDatas" class="mat-elevation-z8">

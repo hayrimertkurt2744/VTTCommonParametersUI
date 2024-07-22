@@ -20,6 +20,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+
 @Component({
   selector: 'app-page-list',
   standalone: true,
@@ -39,7 +40,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     AddingDialogComponent,
     MatPaginatorModule,
     MatBadgeModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   templateUrl: './page-list.component.html',
   styleUrls: ['./page-list.component.scss']
@@ -79,8 +80,11 @@ export class PageListComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
+    
+    this.PageDatas.paginator = this.paginator;
     this.apiService.GetAllPages().subscribe(result => {
       this.PageDataSource = result;
+      
     });
 
   }
@@ -90,11 +94,11 @@ export class PageListComponent implements OnInit, AfterViewInit {
   }
 
 
-  onPaginatorChange(pageInfo:PageEvent) {
-    this.PageDatas.paginator = this.paginator;
+  onPaginatorChange(pageIndex:number, pageSize:number) {
+    
     console.log("Paginator has changed");
-    pageInfo.length=this.rowCount;
-    this.GetPageValues(pageInfo.pageIndex, pageInfo.pageSize);
+    this.GetPageValues(pageIndex, pageSize);
+    console.log(this.paginator.getNumberOfPages());
   }
 
   GetPageValues(pageIndex: number, pageSize: number): any {

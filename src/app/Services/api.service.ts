@@ -20,6 +20,8 @@ export class APIService {
   }
 
   get<T>(url: string): Observable<T> {
+    console.log(this.getAuthHeaders())
+
     return this.http.get<T>(url, { headers: this.getAuthHeaders() });
   }
 

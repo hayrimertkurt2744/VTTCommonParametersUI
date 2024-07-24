@@ -12,6 +12,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { RouterModule, Routes } from '@angular/router';
+import { AuthService } from '../../../Services/auth.service';
 
 
 @Component({
@@ -37,14 +38,19 @@ export class LoginPageComponent {
   password: string = '';
   errorMessage: string | null = null;
 
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private userService: UserService, private router: Router, private authService:AuthService) {}
 
   onSubmit(): void {
     this.userService.Login(this.email, this.password).subscribe(
       response => {
         // Handle successful login
-        console.log('Login successful', response);
+        console.log("old token:"+this.authService.getToken());
+        this.authService.clearToken();
+        //Set the current token using the response from the user.
+        this.authService.setToken(response.data);
+        console.log("Login successful. New Token :"+this.authService.getToken());
         this.router.navigate(['pages/list/page-list']); 
+        
       },
       error => {
         // Handle login error

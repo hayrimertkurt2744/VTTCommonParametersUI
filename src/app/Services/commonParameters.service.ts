@@ -12,6 +12,7 @@ export class CommonParametersService {
   baseUrl = "http://localhost:5194/";
 
   GetAllPages(): Observable<any> {
+    console.log("get all pages works.")
     return this.apiService.get(this.baseUrl + 'CommonParameter/GetAllPages');
   }
 

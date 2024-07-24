@@ -6,6 +6,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule} from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { LoginPageComponent } from './pages/login/login-page/login-page.component';
 
 
 
@@ -21,7 +22,8 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     MatGridListModule,
     FormsModule,
     MatDialogModule,
-    ConfirmationDialogComponent,],
+    ConfirmationDialogComponent,
+    LoginPageComponent,],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   

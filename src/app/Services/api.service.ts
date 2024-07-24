@@ -1,41 +1,38 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class APIService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   baseUrl = "http://localhost:5194/";
 
-  GetAllPages() : Observable<any> {
-    return this.http.get(this.baseUrl+'CommonParameter/GetAllPages');
+  private getAuthHeaders(): HttpHeaders {
+    const token = this.authService.getToken();
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
   }
 
-  GetPageValuesById(PageNum: number, skip:number, take:number) : Observable<any> {
-    return this.http.get( `${this.baseUrl}CommonParameter/GetPageValuesById/${PageNum}/${skip}/${take}` );
-  }
-  GetAllParamIDs(pageId:number){
-    return this.http.get(`${this.baseUrl}CommonParameter/GetAllParamIDs/${pageId}`);
-  }
- 
-  RemmoveParameterValue(rowId:number,pageId:number) : Observable<any> {
-    return this.http.delete(`${this.baseUrl}CommonParameter/RemoveData/${rowId}/${pageId}`);
+  get<T>(url: string): Observable<T> {
+    return this.http.get<T>(url, { headers: this.getAuthHeaders() });
   }
 
-  AddParameterValue(parameterValues: any[]): Observable<any>{
-    
-    return this.http.post(this.baseUrl+`CommonParameter/AddData`,parameterValues)
-  }
-  UpdateParameterValue(rowId:number,pageId:number,parameterValues: any[]): Observable<any>{
-    
-    return this.http.put(`${this.baseUrl}CommonParameter/UpdateData/${rowId}/${pageId}`,parameterValues)
-  }
-  GetTotalCount(pageId:number): Observable<number>{
-    return this.http.get<number>(`${this.baseUrl}CommonParameter/GetTotalCount/${pageId}`);
+  post<T>(url: string, body: any): Observable<T> {
+    return this.http.post<T>(url, body, { headers: this.getAuthHeaders() });
   }
 
+  put<T>(url: string, body: any): Observable<T> {
+    return this.http.put<T>(url, body, { headers: this.getAuthHeaders() });
+  }
+
+  delete<T>(url: string): Observable<T> {
+    return this.http.delete<T>(url, { headers: this.getAuthHeaders() });
+  }
 }
+

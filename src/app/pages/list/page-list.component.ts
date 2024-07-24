@@ -19,6 +19,9 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { CommonParametersService } from '../../Services/commonParameters.service';
+import { RouterOutlet } from '@angular/router';
+
 
 
 @Component({
@@ -41,9 +44,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatPaginatorModule,
     MatBadgeModule,
     MatTooltipModule,
+    RouterOutlet
+    
   ],
   templateUrl: './page-list.component.html',
   styleUrls: ['./page-list.component.scss']
+  
 })
 export class PageListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -73,16 +79,17 @@ export class PageListComponent implements OnInit, AfterViewInit {
   tooltipCloseTime: number = 500;
 
   constructor(
-    private apiService: APIService,
+    private commonParametersService: CommonParametersService,
     private changeDedector: ChangeDetectorRef,
     private _snackBar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+   
   ) {}
 
   ngOnInit(): void {
     
     this.PageDatas.paginator = this.paginator;
-    this.apiService.GetAllPages().subscribe(result => {
+    this.commonParametersService.GetAllPages().subscribe(result => {
       this.PageDataSource = result;
       
     });
@@ -109,11 +116,11 @@ export class PageListComponent implements OnInit, AfterViewInit {
     const skip = pageIndex * pageSize;
     const take = pageSize;
 
-    this.apiService.GetTotalCount(this.selectedPage).subscribe((total: number) => {
+    this.commonParametersService.GetTotalCount(this.selectedPage).subscribe((total: number) => {
       this.rowCount = total;
       
 
-      this.apiService.GetPageValuesById(this.selectedPage, skip, take).subscribe((data: any[]) => {
+      this.commonParametersService.GetPageValuesById(this.selectedPage, skip, take).subscribe((data: any[]) => {
         this.PageDatas.data = data;
 
         if (data && data.length > 0) {
@@ -124,7 +131,7 @@ export class PageListComponent implements OnInit, AfterViewInit {
           }
         }
 
-        this.apiService.GetAllParamIDs(this.selectedPage).subscribe(result => {
+        this.commonParametersService.GetAllParamIDs(this.selectedPage).subscribe(result => {
           this.currentPageParamIds = result;
           this.changeDedector.detectChanges();
         });
@@ -152,7 +159,7 @@ export class PageListComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.apiService.RemmoveParameterValue(rowId, this.PageDataSource[this.selectedPage - 1].Id).subscribe(() => {
+        this.commonParametersService.RemoveParameterValue(rowId, this.PageDataSource[this.selectedPage - 1].Id).subscribe(() => {
           console.log("Deletion complete");
           this.GetPageValues(this.paginator.pageIndex, this.paginator.pageSize);
           this.changeDedector.detectChanges();
@@ -174,7 +181,7 @@ export class PageListComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.apiService.AddParameterValue(result).subscribe(() => {
+      this.commonParametersService.AddParameterValue(result).subscribe(() => {
         this.GetPageValues(this.paginator.pageIndex, this.paginator.pageSize);
         this.changeDedector.detectChanges();
       });
@@ -198,7 +205,7 @@ export class PageListComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.apiService.UpdateParameterValue(this.updateRowId, this.selectedPage, result).subscribe(() => {
+      this.commonParametersService.UpdateParameterValue(this.updateRowId, this.selectedPage, result).subscribe(() => {
         this.GetPageValues(this.paginator.pageIndex, this.paginator.pageSize);
         this.changeDedector.detectChanges();
       });

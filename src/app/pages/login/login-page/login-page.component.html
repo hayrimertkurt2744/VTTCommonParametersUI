@@ -1,0 +1,23 @@
+
+
+<mat-label style="color:white">login-page works!</mat-label>
+<mat-card class="login-card">
+    <mat-toolbar color="primary">
+      <span>Login</span>
+    </mat-toolbar>
+    <mat-card-content>
+      <form >
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" [(ngModel)]="email" name="email" required>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" [(ngModel)]="password" name="password" required>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit" (click)="onSubmit()">Login</button>
+      </form>
+      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    </mat-card-content>
+  </mat-card>
+  <router-outlet></router-outlet>

@@ -52,9 +52,6 @@ export class CommonParametersService {
 //   return this.http.get(`${this.baseUrl}CommonParameter/GetAllParamIDs/${pageId}`);
 // }
 
-// RemmoveParameterValue(rowId:number,pageId:number) : Observable<any> {
-//   return this.http.delete(`${this.baseUrl}CommonParameter/RemoveData/${rowId}/${pageId}`);
-// }
 
 // AddParameterValue(parameterValues: any[]): Observable<any>{
   

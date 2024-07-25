@@ -159,8 +159,11 @@ export class PageListComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.commonParametersService.RemoveParameterValue(rowId, this.PageDataSource[this.selectedPage - 1].Id).subscribe(() => {
-          console.log("Deletion complete");
+        debugger;
+        console.table(this.PageDataSource);
+        this.commonParametersService.RemoveParameterValue(rowId, this.selectedPage).subscribe(result => {
+          console.log("this pageId"+this.selectedPage );
+
           this.GetPageValues(this.paginator.pageIndex, this.paginator.pageSize);
           this.changeDedector.detectChanges();
         });
@@ -181,7 +184,7 @@ export class PageListComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.commonParametersService.AddParameterValue(result).subscribe(() => {
+      this.commonParametersService.AddParameterValue(result).subscribe(x => {
         this.GetPageValues(this.paginator.pageIndex, this.paginator.pageSize);
         this.changeDedector.detectChanges();
       });
@@ -205,7 +208,7 @@ export class PageListComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.commonParametersService.UpdateParameterValue(this.updateRowId, this.selectedPage, result).subscribe(() => {
+      this.commonParametersService.UpdateParameterValue(this.updateRowId, this.selectedPage, result).subscribe(x => {
         this.GetPageValues(this.paginator.pageIndex, this.paginator.pageSize);
         this.changeDedector.detectChanges();
       });
